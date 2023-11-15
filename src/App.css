@@ -1,94 +1,212 @@
-
-body{
-  background-color: #252422;
+body {
+	background-color: #252422;
 }
 .square {
-  background-color: #737373;
-  float: left;
-  position: relative;
-  width: 30%;
-  padding-bottom: 30.66%;
-  margin: 1.66%;
+	background-color: #737373;
+	float: left;
+	position: relative;
+	width: 30%;
+	padding-bottom: 30.66%;
+	margin: 1.66%;
 }
-.grid{
-  display: grid;
-  grid-template-columns: repeat(25,1fr);
-  gap:.002%;
+.grid {
+	display: grid;
+	grid-template-columns: repeat(25, 1fr);
+	gap: 0.002%;
 
-  padding: 2px;
-  width: 1fr;
-  height: 1fr;
-  border-radius: 3px;
-  background-color: #737373;
+	padding: 2px;
+	width: 1fr;
+	height: 1fr;
+	border-radius: 3px;
+	background-color: #737373;
 }
-.col{
-  align-content: center;
+.col {
+	align-content: center;
 }
 .row {
-  justify-content: center;
+	justify-content: center;
 }
-.buttonSquare{
-  border: none;
-  background-color: #FFFCF2;
-  height: 1fr ;
-  margin: 1px;
-  aspect-ratio: 1/1;
-  border-radius: 2px;
+.buttonSquare {
+	border: none;
+	background-color: #fffcf2;
+	height: 1fr;
+	margin: 1px;
+	aspect-ratio: 1/1;
+	border-radius: 2px;
 
-  cursor:pointer;
+	cursor: pointer;
 }
-.ControlContainer{
-  border:none;
-  padding-left: 2px;
-  width: 1fr;
-  aspect-ratio: 1/1;
-  border-radius: 3px;
-  border: 3px solid #777169;
-  background-color: #737373;
-  overflow-y: scroll;
+.ControlContainer {
+	border: none;
+	padding-left: 2px;
+	width: 1fr;
+	aspect-ratio: 1/1;
+	border-radius: 3px;
+	border: 3px solid #777169;
+	background-color: #737373;
+	overflow-y: scroll;
 }
-.ControlRow{
-  border:3px solid;
-  border-radius: 8px;
-  border-color: #777169;
-  width: 1fr;
-  height: 60px;
-  background-color: #FFFCF2;
-  padding-left: 25px;
-}
-.AddControlRow{
-  width: 100px;
-  height: 50px;
-  border: 3px solid;
-  border-color: transparent;
-  border-radius: 6px;
-}
-.ControlRow.NoBackground{
-  border:3px solid;
-  border-radius: 5px;
-  border-color: transparent;
-  width: 1fr;
-  height: 60px;
-  background-color: transparent;
-  display:flex;
-  justify-content: center;
-}
-::-webkit-scrollbar{
-  width: 10px;
-  border-right: 2px #777169;
-}
-::-webkit-scrollbar-track{
-  background-color: #777169;
+.state {
+	border: 3px solid;
+	border-radius: 8px;
+	border-color: #777169;
+	width: 1fr;
 
+	background-color: #fffcf2;
+	padding: 15px;
 }
-::-webkit-scrollbar-thumb{
-  background: #252422;
-  border-radius: 100vw;
+.rule {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	gap: 20px;
+	position: relative;
 }
-.App{
-  display: grid;
-  grid-template-columns:  1fr 1fr;
-  gap: 50px;
-  margin:100px;
+.state-control {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.state-header {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+}
 
+.state-header h2 {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+}
+.AddControlRow {
+	width: 100px;
+	border: 3px solid;
+	border-color: transparent;
+	border-radius: 6px;
+}
+.ControlRow.NoBackground {
+	border: 3px solid;
+	border-radius: 5px;
+	border-color: transparent;
+	width: 1fr;
+	height: 60px;
+	background-color: transparent;
+	display: flex;
+	justify-content: center;
+}
+::-webkit-scrollbar {
+	width: 10px;
+	border-right: 2px #777169;
+}
+::-webkit-scrollbar-track {
+	background-color: #777169;
+}
+::-webkit-scrollbar-thumb {
+	background: #252422;
+	border-radius: 100vw;
+}
+.App {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 50px;
+	margin: 100px;
+}
+.chat-container {
+	width: 400px;
+	height: 600px;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.chat-header {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	padding: 10px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.chat-messages {
+	height: 400px;
+	overflow-y: scroll;
+	padding: 10px;
+}
+
+.message-container {
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+.message-container.user {
+	background-color: #e5e5e5;
+	float: right;
+}
+
+.message-container.bot {
+	background-color: #fff;
+	float: left;
+}
+
+.chat-input-container {
+	background-color: #f5f5f5;
+	padding: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.chat-input-container input[type="text"] {
+	width: 80%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 4px;
+}
+
+.chat-input-container button[type="submit"] {
+	width: 20%;
+	background-color: #4caf50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.facebook-container {
+	width: 800px;
+	margin: 0 auto;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	background-color: #1877f2;
+	color: #fff;
+}
+
+.header-left img {
+	width: 50px;
+}
+
+.header-right a {
+	margin-right: 10px;
+	color: #fff;
+}
+.post-card {
+	background-color: #f5f5f5;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 2px 2px 5px #ccc;
+}
+
+.header-right form {
+	display: flex;
 }
