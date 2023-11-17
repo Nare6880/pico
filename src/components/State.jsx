@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Rule from "./rule";
-function State({ id, removeState }) {
+function State({ id, removeState, states }) {
   const [rules, setRules] = useState({ "default": "noDisplay" });
   const addCase = () => {
     let tempRule = { ...rules };
@@ -28,9 +28,11 @@ function State({ id, removeState }) {
           return rules[key] !== "noDisplay"
             ? (
               <Rule
+                states = {states}
                 locationRule={key}
                 data={rules[key]}
                 updateRule={updateRule}
+                stateNum = {id}
               />
             )
             : (

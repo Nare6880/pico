@@ -16,7 +16,7 @@ export default function PicoControl() {
 	return (
 		<div className="ControlContainer">
 			{states.map((state, index) => {
-				return <State id={state} removeState={removeState} />;
+				return <State states = {states} id={state} removeState={removeState} />;
 			})}
 			<div className="ControlRow NoBackground">
 				<button className="AddControlRow" onClick={addState}>
