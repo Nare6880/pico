@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
 export default function PicoScreen({ isRunning, setIsRunning }) {
+	const [currentLevel, setCurrentLevel] = useState(1);
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
-		Pos: levels.level2.validSpawns[
-			Math.floor(Math.random() * levels.level2.validSpawns.length)
+		Pos: levels.level1.validSpawns[
+			Math.floor(Math.random() * levels.level1.validSpawns.length)
 		],
-		map: levels.level2.map,
+		map: levels.level1.map,
 		state: Object.keys(rules)[0],
+		cellsToGo: levels.level1.validSpawns.length - 1,
 	});
 	const getValidSpawns = (map) => {
 		var validSpawns = [];
@@ -91,7 +93,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 				);
 				console.log(obj);
 				setGameState(obj);
-			}, 100);
+			}, 50);
 		}
 		return () => clearInterval(interval);
 	}, [isRunning, rules, gameState]);
@@ -113,19 +115,75 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		console.log("yeet");
 	};
 	return (
-		<div className="grid">
-			{tempMap.map((list, i) => {
-				return list.map((item, j) => {
-					return (
-						<button
-							className="buttonSquare"
-							onClick={ChangeColor}
-							id={i + "," + j}
-							style={{ backgroundColor: getColor([i, j]) }}
-						></button>
-					);
-				});
-			})}
+		<div>
+			<div className="grid">
+				{tempMap.map((list, i) => {
+					return list.map((item, j) => {
+						return (
+							<button
+								className="buttonSquare"
+								onClick={ChangeColor}
+								id={i + "," + j}
+								style={{ backgroundColor: getColor([i, j]) }}
+							></button>
+						);
+					});
+				})}
+			</div>
+			<div className="screenControls">
+				<p>controls:</p>
+
+				<div className="screenControlRow">
+					<p className="controlLabel">case:</p>
+					<div className="ruleButtons">
+						{getLocationCase()
+							.split("")
+							.map((direction, index) => {
+								return (
+									<button
+										dataSelector={
+											direction === getLocationCase[index] ? "blue" : "white"
+										}
+										className="ruleButton"
+									>
+										{direction === "a"
+											? "?"
+											: direction === "x"
+											? "x"
+											: direction}
+									</button>
+								);
+							})}
+						<div className="centerSquare"></div>
+					</div>
+					<p className="controlLabel">Move pico:</p>
+					<div className="ruleButtons">
+						{getLocationCase()
+							.split("")
+							.map((direction, index) => {
+								return (
+									<button
+										dataSelector={
+											direction === getLocationCase[index] ? "blue" : "white"
+										}
+										className="ruleButton"
+									>
+										{direction === "a"
+											? "?"
+											: direction === "x"
+											? "x"
+											: direction}
+									</button>
+								);
+							})}
+					</div>
+					<button>Reset</button>
+					<button>previousMap</button>
+					<p className="controlLabel">change map: {currentLevel}</p>
+					<button>nextMap</button>
+					<p className="controlLabel">cells to go: {gameState.cellsToGo}</p>
+				</div>
+			</div>
 		</div>
 	);
 }

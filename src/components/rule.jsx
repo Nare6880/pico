@@ -42,7 +42,7 @@ function Rule({ id, locationRule }) {
 	console.log("finishState:", finishState, getFinishState());
 	return (
 		<div className="rule">
-			<p>case:</p>
+			<p className="controlLabel">case:</p>
 			<div className="ruleButtons">
 				{state.map((direction, index) => {
 					return (
@@ -67,7 +67,7 @@ function Rule({ id, locationRule }) {
 				})}
 				<div className="centerSquare"></div>
 			</div>
-			<p>action:</p>
+			<p className="controlLabel">action:</p>
 			<Select
 				value={actionOptions.value}
 				options={actionOptions}
