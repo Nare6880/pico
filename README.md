@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+## Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was heavily inspired by [picobot](https://www.cs.hmc.edu/picobot/) a website that introduces the basics finite state machines by allowing users to Set up states with rules and actions that define the movement of the picobot inside of a level. The goal of this project is to simplify the barrier to entry of these concepts even further by allowing for the rules to be configured through interaction with a GUI rather than creating the rules utilizing the semi-confusing language that picobot provides.
 
 ## Available Scripts
 

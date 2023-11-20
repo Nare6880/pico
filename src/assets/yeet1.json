@@ -1,0 +1,87 @@
+{
+	"yeet1": {
+		"state1": {
+			"stateNum": 1,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state1"
+				},
+				"aSEa": {
+					"action": "N",
+					"finishState": "state1"
+				},
+				"aaEa": {
+					"action": "N",
+					"finishState": "state1"
+				},
+				"NaEa": {
+					"action": "W",
+					"finishState": "state2"
+				}
+			}
+		},
+		"state2": {
+			"stateNum": 2,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state2"
+				},
+				"Naaa": {
+					"action": "S",
+					"finishState": "state2"
+				},
+				"aaaa": {
+					"action": "S",
+					"finishState": "state2"
+				},
+				"aSaa": {
+					"action": "W",
+					"finishState": "state3"
+				},
+				"NaaW": {
+					"action": "S",
+					"finishState": "state2"
+				},
+				"aaaW": {
+					"action": "S",
+					"finishState": "state2"
+				}
+			}
+		},
+		"state3": {
+			"stateNum": 3,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state3"
+				},
+				"Nxaa": {
+					"action": "W",
+					"finishState": "state2"
+				},
+				"aSaa": {
+					"action": "N",
+					"finishState": "state3"
+				},
+				"aaaa": {
+					"action": "N",
+					"finishState": "state3"
+				},
+				"aSaW": {
+					"action": "N",
+					"finishState": "state3"
+				},
+				"aaaW": {
+					"action": "N",
+					"finishState": "state3"
+				},
+				"Naaa": {
+					"action": "W",
+					"finishState": "state2"
+				}
+			}
+		}
+	}
+}

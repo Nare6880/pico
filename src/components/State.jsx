@@ -1,46 +1,41 @@
 import React, { useState } from "react";
 import Rule from "./rule";
-function State({ id, removeState, states }) {
-  const [rules, setRules] = useState({ "default": "noDisplay" });
-  const addCase = () => {
-    let tempRule = { ...rules };
-    tempRule["default"] = "display";
-    setRules(tempRule);
-  };
-  const updateRule = (state, action) => {
-    let tempRule = { ...rules };
-    tempRule[state] = action;
-    tempRule.default = "noDisplay";
-    console.log(tempRule);
-    setRules(tempRule);
-  };
-  console.log(Object.keys(rules));
-  return (
-    <div className="state">
-      <div className="state-header">
-        <h2>State {id}</h2>
-        <div className="state-control">
-          <button onClick={addCase}>Add case</button>
-          <button onClick={() => removeState(id - 1)}>Remove State</button>
-        </div>
-        {Object.keys(rules).reverse().map((key, index) => {
-          console.log(key, index);
-          return rules[key] !== "noDisplay"
-            ? (
-              <Rule
-                states = {states}
-                locationRule={key}
-                data={rules[key]}
-                updateRule={updateRule}
-                stateNum = {id}
-              />
-            )
-            : (
-              ""
-            );
-        })}
-      </div>
-    </div>
-  );
+import { useSelector, useDispatch } from "react-redux";
+function State({ id }) {
+	const rules = useSelector((state) => state.reducer[`state${id}`]["rules"]);
+	const dispatch = useDispatch();
+	const handleRemoveState = () => {
+		dispatch({ type: "removeState", payload: id });
+	};
+	const handleAddCase = () => {
+		console.log("add case");
+		dispatch({
+			type: "addRule",
+			payload: { stateNum: id },
+		});
+	};
+	const getRulesArr = () => {
+		let arr = Object.keys(rules);
+		arr.push(arr.shift());
+		return arr;
+	};
+	return (
+		<div className="state">
+			<div className="state-header">
+				<h2>State {id}</h2>
+				<div className="state-control">
+					<button onClick={handleAddCase}>Add case</button>
+					<button onClick={handleRemoveState}>Remove State</button>
+				</div>
+			</div>
+
+			{getRulesArr().map((locationRule) => {
+				if (rules[locationRule]["action"] !== "noDisplay") {
+					return <Rule id={id} locationRule={locationRule}></Rule>;
+				}
+				return "";
+			})}
+		</div>
+	);
 }
 export default State;

@@ -1,51 +1,131 @@
-import React,  { Component, useState }  from "react";
-import "../App.css"
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import "../App.css";
+import levels from "../assets/yeet.json";
+export default function PicoScreen({ isRunning, setIsRunning }) {
+	const rules = useSelector((state) => state.reducer);
+	const [gameState, setGameState] = useState({
+		Pos: levels.level2.validSpawns[
+			Math.floor(Math.random() * levels.level2.validSpawns.length)
+		],
+		map: levels.level2.map,
+		state: Object.keys(rules)[0],
+	});
+	const getValidSpawns = (map) => {
+		var validSpawns = [];
+		for (let i = 0; i < map.length; i++) {
+			for (let j = 0; j < map[i].length; j++) {
+				if (map[i][j] === 0) {
+					validSpawns.push([i, j]);
+				}
+			}
+		}
+		return validSpawns;
+	};
+	console.log("valid spawns", getValidSpawns(gameState.map));
+	console.log("pico", gameState);
+	var tempMap = [...gameState.map];
+	tempMap[gameState.Pos[0]][gameState.Pos[1]] = -1;
+	var tempPos = [...gameState.Pos];
+	const getLocationCase = () => {
+		var positionString = "";
+		if (tempPos[0] === 0 || tempMap[tempPos[0] - 1][tempPos[1]] === 1) {
+			positionString += "N";
+		} else {
+			positionString += "a";
+		}
+		if (tempPos[0] === 24 || tempMap[tempPos[0] + 1][tempPos[1]] === 1) {
+			positionString += "S";
+		} else {
+			positionString += "a";
+		}
+		if (tempPos[1] === 24 || tempMap[tempPos[0]][tempPos[1] + 1] === 1) {
+			positionString += "E";
+		} else {
+			positionString += "a";
+		}
+		if (tempPos[1] === 0 || tempMap[tempPos[0]][tempPos[1] - 1] === 1) {
+			positionString += "W";
+		} else {
+			positionString += "a";
+		}
+		return positionString;
+	};
 
-export default function
-    PicoScreen(){
-    const[Pos, setPos] = useState([Math.floor((Math.random()*25)), Math.floor((Math.random()*25))])
-    const[Map, setMap] = useState([])
-        let list = []
-        let tempMap = []
-        for (let i = 0; i < 25; i++) {
-            let tempList = []
-            for (let j = 0; j < 25; j++) {
-                list.push([i,j])
-                if (i == Pos[0] && j == Pos[1]){
-                    tempList.push(-1)
-                }
-                else {
-                    tempList.push(0)
-                }
-            }
-            tempMap.push(tempList)
-        }
+	const updateGrid = (direction, tempRuleState) => {
+		if (direction === "N" && tempPos[0] > 0) {
+			tempMap[tempPos[0]][tempPos[1]] = 2;
+			tempPos[0] = tempPos[0] - 1;
+		} else if (direction === "S" && tempPos[0] < 24) {
+			tempMap[tempPos[0]][tempPos[1]] = 2;
+			tempPos[0] = tempPos[0] + 1;
+		} else if (direction === "E" && tempPos[1] < 24) {
+			tempMap[tempPos[0]][tempPos[1]] = 2;
+			tempPos[1] = tempPos[1] + 1;
+		} else if (direction === "W" && tempPos[1] > 0) {
+			tempMap[tempPos[0]][tempPos[1]] = 2;
+			tempPos[1] = tempPos[1] - 1;
+		}
 
-        console.log(Pos)
-        function
-        getColor(position){
-            const i = tempMap[position[0]][position[1]]
-            if (i == -1)
-                return '#EB5E28'
-            else if (i == 0)
-                return '#FFFCF2'
-            else if (i == 1)
-                return 'blue'
+		console.log("hmm", direction, tempRuleState);
+		tempMap[tempPos[0]][tempPos[1]] = -1;
+		return { Pos: tempPos, map: tempMap, state: tempRuleState };
+	};
+	useEffect(() => {
+		let interval = null;
+		if (isRunning) {
+			interval = setInterval(() => {
+				if (
+					typeof rules[gameState.state]["rules"][getLocationCase()] ===
+					"undefined"
+				) {
+					console.log("yeet");
 
-
-        }
-        //Toggles wall Status
-        const ChangeColor =(event)=> {
-            if (event.target.style.backgroundColor != "blue")
-                event.target.style.backgroundColor = "blue";
-            else
-                event.target.style.backgroundColor = "#FFFCF2";
-            console.log('yeet')}
-        return(
-            <div className='grid'>
-                {list.map((i)=>{
-                    return <button className='buttonSquare' key ={i} onClick={ChangeColor} style = {{backgroundColor:getColor(i)}}id = {i}></button>})}
-            </div>
-            );
-
-    }
+					return;
+				}
+				console.log();
+				console.log(rules[gameState.state]["rules"][getLocationCase()]);
+				let obj = updateGrid(
+					rules[gameState.state]["rules"][getLocationCase()]["action"],
+					rules[gameState.state]["rules"][getLocationCase()]["finishState"]
+				);
+				console.log(obj);
+				setGameState(obj);
+			}, 100);
+		}
+		return () => clearInterval(interval);
+	}, [isRunning, rules, gameState]);
+	function getColor(position) {
+		const i = tempMap[position[0]][position[1]];
+		if (i === -1) return "#EB5E28";
+		else if (i === 0) return "#FFFCF2";
+		else if (i === 1) return "blue";
+		else if (i === 2) return "gray";
+	}
+	//Toggles wall Status
+	const ChangeColor = (event) => {
+		let cordinates = event.target.id.split(",");
+		if (event.target.style.backgroundColor != "blue") {
+			event.target.style.backgroundColor = "blue";
+			tempMap[cordinates[0]][cordinates[1]] = 1;
+			setGameState({ ...gameState, map: tempMap });
+		} else event.target.style.backgroundColor = "#FFFCF2";
+		console.log("yeet");
+	};
+	return (
+		<div className="grid">
+			{tempMap.map((list, i) => {
+				return list.map((item, j) => {
+					return (
+						<button
+							className="buttonSquare"
+							onClick={ChangeColor}
+							id={i + "," + j}
+							style={{ backgroundColor: getColor([i, j]) }}
+						></button>
+					);
+				});
+			})}
+		</div>
+	);
+}
