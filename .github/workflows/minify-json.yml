@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.PAT_TOKEN }}
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
       - name: Minify JSON files
         run: |
           for file in $(find . -type f -name "yeet.json"); do
