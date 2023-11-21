@@ -21,8 +21,6 @@ jobs:
           done
 
       - name: Commit and push changes
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
