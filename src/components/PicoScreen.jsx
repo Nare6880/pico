@@ -9,7 +9,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		Pos: levels.level1.validSpawns[
 			Math.floor(Math.random() * levels.level1.validSpawns.length)
 		],
-		map: levels.level1.map,
+		map: levels.level2.map,
 		state: Object.keys(rules)[0],
 		cellsToGo: levels.level1.validSpawns.length - 1,
 	});
