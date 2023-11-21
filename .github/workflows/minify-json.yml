@@ -21,11 +21,11 @@ jobs:
           done
 
       - name: Commit and push changes
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
           git diff --staged --quiet || git commit -m "Minify JSON files [skip ci]"
           git push
-        with:
-          github-token: ${{ secrets.PAT_TOKEN }}
