@@ -39,6 +39,16 @@ function Rule({ id, locationRule }) {
 		});
 		return elIndex;
 	};
+	const getaction = () => {
+		var elIndex = 0;
+		actionOptions.forEach((Element, index) => {
+			if (Element.value === action) {
+				console.log(index);
+				elIndex = index;
+			}
+		});
+		return elIndex;
+	};
 	console.log("finishState:", finishState, getFinishState());
 	return (
 		<div className="rule">
@@ -71,7 +81,7 @@ function Rule({ id, locationRule }) {
 			<Select
 				value={actionOptions.value}
 				options={actionOptions}
-				defaultValue={actionOptions[0]}
+				defaultValue={actionOptions[getaction()]}
 				onChange={(value, actionType) => {
 					if (value.value !== "display") {
 						action = value.value;

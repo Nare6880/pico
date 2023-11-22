@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import yeet from "./assets/yeet1.json";
-//const initialState = yeet.yeet1;
+const initialState = yeet.yeet2;
 
-const initialState = {
-	state1: {
-		stateNum: 1,
-		rules: { default: { action: "noDisplay", finishState: "state1" } },
-	},
-};
+// const initialState = {
+// 	state1: {
+// 		stateNum: 1,
+// 		rules: { default: { action: "noDisplay", finishState: "state1" } },
+// 	},
+// };
 const reducer = function appReducer(passedState = initialState, action) {
 	let state = { ...passedState };
 	switch (action.type) {

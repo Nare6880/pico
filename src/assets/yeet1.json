@@ -7,15 +7,76 @@
 					"action": "noDisplay",
 					"finishState": "state1"
 				},
-				"aSEa": {
+				"xaaa": {
 					"action": "N",
 					"finishState": "state1"
 				},
-				"aaEa": {
-					"action": "N",
+				"Naxa": {
+					"action": "E",
 					"finishState": "state1"
 				},
 				"NaEa": {
+					"action": "S",
+					"finishState": "state2"
+				}
+			}
+		},
+		"state2": {
+			"stateNum": 2,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state2"
+				},
+				"axaa": {
+					"action": "S",
+					"finishState": "state2"
+				},
+				"aSaa": {
+					"action": "W",
+					"finishState": "state3"
+				}
+			}
+		},
+		"state3": {
+			"stateNum": 3,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state3"
+				},
+				"xaaa": {
+					"action": "N",
+					"finishState": "state3"
+				},
+				"Naaa": {
+					"action": "W",
+					"finishState": "state2"
+				}
+			}
+		}
+	},
+	"yeet2": {
+		"state1": {
+			"stateNum": 1,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state1"
+				},
+				"xxxa": {
+					"action": "E",
+					"finishState": "state1"
+				},
+				"xSEa": {
+					"action": "N",
+					"finishState": "state1"
+				},
+				"NxEa": {
+					"action": "S",
+					"finishState": "state1"
+				},
+				"NSEa": {
 					"action": "W",
 					"finishState": "state2"
 				}
@@ -28,25 +89,17 @@
 					"action": "noDisplay",
 					"finishState": "state2"
 				},
-				"Naaa": {
-					"action": "S",
+				"xxxx": {
+					"action": "N",
 					"finishState": "state2"
 				},
-				"aaaa": {
+				"NxEx": {
 					"action": "S",
-					"finishState": "state2"
-				},
-				"aSaa": {
-					"action": "W",
 					"finishState": "state3"
 				},
-				"NaaW": {
+				"NxEW": {
 					"action": "S",
-					"finishState": "state2"
-				},
-				"aaaW": {
-					"action": "S",
-					"finishState": "state2"
+					"finishState": "state4"
 				}
 			}
 		},
@@ -57,29 +110,93 @@
 					"action": "noDisplay",
 					"finishState": "state3"
 				},
-				"Nxaa": {
+				"xxxx": {
+					"action": "S",
+					"finishState": "state3"
+				},
+				"xSEx": {
 					"action": "W",
 					"finishState": "state2"
 				},
-				"aSaa": {
+				"xSEW": {
 					"action": "N",
-					"finishState": "state3"
+					"finishState": "state4"
+				}
+			}
+		},
+		"state4": {
+			"stateNum": 4,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state4"
 				},
-				"aaaa": {
-					"action": "N",
-					"finishState": "state3"
-				},
-				"aSaW": {
-					"action": "N",
-					"finishState": "state3"
-				},
-				"aaaW": {
-					"action": "N",
-					"finishState": "state3"
-				},
-				"Naaa": {
+				"xxxx": {
 					"action": "W",
-					"finishState": "state2"
+					"finishState": "state4"
+				},
+				"NxxW": {
+					"action": "S",
+					"finishState": "state4"
+				},
+				"xSxW": {
+					"action": "N",
+					"finishState": "state4"
+				},
+				"NSxW": {
+					"action": "E",
+					"finishState": "state5"
+				}
+			}
+		},
+		"state5": {
+			"stateNum": 5,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state5"
+				},
+				"xxxx": {
+					"action": "N",
+					"finishState": "state5"
+				},
+				"NxxW": {
+					"action": "S",
+					"finishState": "state6"
+				},
+				"NaEW": {
+					"action": "S",
+					"finishState": "state7"
+				}
+			}
+		},
+		"state6": {
+			"stateNum": 6,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state6"
+				},
+				"xxxx": {
+					"action": "S",
+					"finishState": "state6"
+				},
+				"xSxW": {
+					"action": "E",
+					"finishState": "state5"
+				}
+			}
+		},
+		"state7": {
+			"stateNum": 7,
+			"rules": {
+				"default": {
+					"action": "noDisplay",
+					"finishState": "state7"
+				},
+				"xxxx": {
+					"action": "S",
+					"finishState": "state7"
 				}
 			}
 		}

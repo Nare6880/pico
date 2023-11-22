@@ -3,13 +3,15 @@ import { useSelector } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
 export default function PicoScreen({ isRunning, setIsRunning }) {
-	const [currentLevel, setCurrentLevel] = useState(1);
+	const [currentLevel, setCurrentLevel] = useState(2);
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
-		Pos: levels.level1.validSpawns[
-			Math.floor(Math.random() * levels.level1.validSpawns.length)
+		Pos: levels[`level${currentLevel}`].validSpawns[
+			Math.floor(
+				Math.random() * levels[`level${currentLevel}`].validSpawns.length
+			)
 		],
-		map: levels.level2.map,
+		map: levels[`level${currentLevel}`].map,
 		state: Object.keys(rules)[0],
 		cellsToGo: levels.level1.validSpawns.length - 1,
 	});
@@ -24,8 +26,6 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		}
 		return validSpawns;
 	};
-	console.log("valid spawns", getValidSpawns(gameState.map));
-	console.log("pico", gameState);
 	var tempMap = [...gameState.map];
 	tempMap[gameState.Pos[0]][gameState.Pos[1]] = -1;
 	var tempPos = [...gameState.Pos];
@@ -34,66 +34,106 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		if (tempPos[0] === 0 || tempMap[tempPos[0] - 1][tempPos[1]] === 1) {
 			positionString += "N";
 		} else {
-			positionString += "a";
+			positionString += "x";
 		}
 		if (tempPos[0] === 24 || tempMap[tempPos[0] + 1][tempPos[1]] === 1) {
 			positionString += "S";
 		} else {
-			positionString += "a";
+			positionString += "x";
 		}
 		if (tempPos[1] === 24 || tempMap[tempPos[0]][tempPos[1] + 1] === 1) {
 			positionString += "E";
 		} else {
-			positionString += "a";
+			positionString += "x";
 		}
 		if (tempPos[1] === 0 || tempMap[tempPos[0]][tempPos[1] - 1] === 1) {
 			positionString += "W";
 		} else {
-			positionString += "a";
+			positionString += "x";
 		}
 		return positionString;
 	};
-
 	const updateGrid = (direction, tempRuleState) => {
-		if (direction === "N" && tempPos[0] > 0) {
+		let squareModified = false;
+		if (
+			direction === "N" &&
+			tempPos[0] > 0 &&
+			tempMap[tempPos[0] - 1][tempPos[1]] !== 1
+		) {
 			tempMap[tempPos[0]][tempPos[1]] = 2;
+			squareModified = tempMap[tempPos[0] - 1][tempPos[1]] !== 2;
 			tempPos[0] = tempPos[0] - 1;
-		} else if (direction === "S" && tempPos[0] < 24) {
+		} else if (
+			direction === "S" &&
+			tempPos[0] < 24 &&
+			tempMap[tempPos[0] + 1][tempPos[1]] !== 1
+		) {
 			tempMap[tempPos[0]][tempPos[1]] = 2;
+			squareModified = tempMap[tempPos[0] + 1][tempPos[1]] !== 2;
 			tempPos[0] = tempPos[0] + 1;
-		} else if (direction === "E" && tempPos[1] < 24) {
+		} else if (
+			direction === "E" &&
+			tempPos[1] < 24 &&
+			tempMap[tempPos[0]][tempPos[1] + 1] !== 1
+		) {
 			tempMap[tempPos[0]][tempPos[1]] = 2;
+			squareModified = tempMap[tempPos[0]][tempPos[1] + 1] !== 2;
 			tempPos[1] = tempPos[1] + 1;
-		} else if (direction === "W" && tempPos[1] > 0) {
+		} else if (
+			direction === "W" &&
+			tempPos[1] > 0 &&
+			tempMap[tempPos[0]][tempPos[1] - 1] !== 1
+		) {
 			tempMap[tempPos[0]][tempPos[1]] = 2;
+			squareModified = tempMap[tempPos[0]][tempPos[1] - 1] !== 2;
 			tempPos[1] = tempPos[1] - 1;
 		}
-
-		console.log("hmm", direction, tempRuleState);
 		tempMap[tempPos[0]][tempPos[1]] = -1;
-		return { Pos: tempPos, map: tempMap, state: tempRuleState };
+		return {
+			Pos: tempPos,
+			map: tempMap,
+			state: tempRuleState,
+			cellsToGo: gameState.cellsToGo - squareModified,
+		};
 	};
+	const getMatchingRule = (locationCase) => {
+		let rulesArr = Object.keys(rules[gameState.state]["rules"]);
+		rulesArr.shift();
+
+		for (let i = 0; i < rulesArr.length; i++) {
+			for (let j = 0; j < 4; j++) {
+				if (rulesArr[i][j] !== locationCase[j] && rulesArr[i][j] !== "a") {
+					break;
+				} else if (j === 3) {
+					return rulesArr[i];
+				}
+			}
+		}
+	};
+	console.log(rules);
 	useEffect(() => {
 		let interval = null;
 		if (isRunning) {
 			interval = setInterval(() => {
 				if (
-					typeof rules[gameState.state]["rules"][getLocationCase()] ===
-					"undefined"
+					typeof rules[gameState.state]["rules"][
+						getMatchingRule(getLocationCase())
+					] === "undefined" ||
+					gameState.cellsToGo <= 0
 				) {
 					console.log("yeet");
-
 					return;
 				}
-				console.log();
-				console.log(rules[gameState.state]["rules"][getLocationCase()]);
 				let obj = updateGrid(
-					rules[gameState.state]["rules"][getLocationCase()]["action"],
-					rules[gameState.state]["rules"][getLocationCase()]["finishState"]
+					rules[gameState.state]["rules"][getMatchingRule(getLocationCase())][
+						"action"
+					],
+					rules[gameState.state]["rules"][getMatchingRule(getLocationCase())][
+						"finishState"
+					]
 				);
-				console.log(obj);
 				setGameState(obj);
-			}, 50);
+			}, 15);
 		}
 		return () => clearInterval(interval);
 	}, [isRunning, rules, gameState]);
@@ -112,7 +152,6 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 			tempMap[cordinates[0]][cordinates[1]] = 1;
 			setGameState({ ...gameState, map: tempMap });
 		} else event.target.style.backgroundColor = "#FFFCF2";
-		console.log("yeet");
 	};
 	return (
 		<div>
@@ -158,30 +197,37 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 					</div>
 					<p className="controlLabel">Move pico:</p>
 					<div className="ruleButtons">
-						{getLocationCase()
-							.split("")
-							.map((direction, index) => {
-								return (
-									<button
-										dataSelector={
-											direction === getLocationCase[index] ? "blue" : "white"
-										}
-										className="ruleButton"
-									>
-										{direction === "a"
-											? "?"
-											: direction === "x"
-											? "x"
-											: direction}
-									</button>
-								);
-							})}
+						<button
+							className="ruleButton"
+							onClick={() => setGameState(updateGrid("N", gameState.state))}
+						>
+							N
+						</button>
+						<button
+							className="ruleButton"
+							onClick={() => setGameState(updateGrid("S", gameState.state))}
+						>
+							S
+						</button>
+						<button
+							className="ruleButton"
+							onClick={() => setGameState(updateGrid("E", gameState.state))}
+						>
+							E
+						</button>
+						<button
+							className="ruleButton"
+							onClick={() => setGameState(updateGrid("W", gameState.state))}
+						>
+							W
+						</button>
 					</div>
 					<button>Reset</button>
 					<button>previousMap</button>
 					<p className="controlLabel">change map: {currentLevel}</p>
 					<button>nextMap</button>
 					<p className="controlLabel">cells to go: {gameState.cellsToGo}</p>
+					<p>{gameState.state}</p>
 				</div>
 			</div>
 		</div>
