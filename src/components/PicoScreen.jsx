@@ -26,7 +26,6 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		}
 		return validSpawns;
 	};
-	console.log(gameState.map);
 	const resetGame = () => {
 		let tempMap = gameState.map.map((array) => {
 			return array.map((element) => {
@@ -258,11 +257,13 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 						<p className="">cells to go: {gameState.cellsToGo}</p>
 						<p>{gameState.state}</p>
 					</div>
+					<button onClick={resetGame}>Reset</button>
 				</div>
-				<button onClick={resetGame}>Reset</button>
-				<button>previousMap</button>
-				<p className="">change map: {currentLevel}</p>
-				<button>nextMap</button>
+				<div>
+					<button>previousMap</button>
+					<p className="">change map: {currentLevel}</p>
+					<button>nextMap</button>
+				</div>
 			</div>
 		</div>
 	);
