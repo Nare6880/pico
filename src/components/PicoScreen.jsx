@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
 export default function PicoScreen({ isRunning, setIsRunning }) {
-	const [currentLevel, setCurrentLevel] = useState(2);
+	const [currentLevel, setCurrentLevel] = useState(1);
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
 		Pos: levels[`level${currentLevel}`].validSpawns[
@@ -26,8 +26,8 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		}
 		return validSpawns;
 	};
-	const resetGame = () => {
-		let tempMap = gameState.map.map((array) => {
+	const resetGame = (currentLevel) => {
+		let tempMap = levels[`level${currentLevel}`].map.map((array) => {
 			return array.map((element) => {
 				return element !== 0 && element !== 1 ? 0 : element;
 			});
@@ -197,7 +197,6 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 			</div>
 			<div className="screenControls">
 				<p className="controlHeader">controls:</p>
-
 				<div>
 					<p className="">case:</p>
 					<div className="ruleButtons">
@@ -257,12 +256,34 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 						<p className="">cells to go: {gameState.cellsToGo}</p>
 						<p>{gameState.state}</p>
 					</div>
-					<button onClick={resetGame}>Reset</button>
+					<button onClick={() => resetGame(currentLevel)}>Reset</button>
 				</div>
 				<div>
-					<button>previousMap</button>
+					<button
+						onClick={() => {
+							setCurrentLevel(
+								currentLevel - 1 < 0
+									? Object.keys(levels).length - 1
+									: currentLevel - 1
+							);
+							resetGame(
+								currentLevel - 1 < 0
+									? Object.keys(levels).length - 1
+									: currentLevel - 1
+							);
+						}}
+					>
+						previousMap
+					</button>
 					<p className="">change map: {currentLevel}</p>
-					<button>nextMap</button>
+					<button
+						onClick={() => {
+							setCurrentLevel((currentLevel + 1) % 2);
+							resetGame((currentLevel + 1) % 2);
+						}}
+					>
+						nextMap
+					</button>
 				</div>
 			</div>
 		</div>
