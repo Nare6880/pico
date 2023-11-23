@@ -261,8 +261,23 @@ body {
 .screenControls {
 	width: 100%;
 	background-color: white;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	position: relative;
+	padding: 20px;
+	text-align: center;
+}
+.gridItem {
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
 }
 .screenControlRow {
 	display: flex;
 	flex-direction: row;
+}
+.controlHeader {
+	position: absolute;
+	left: 0;
+	top: 0;
 }

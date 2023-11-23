@@ -13,7 +13,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		],
 		map: levels[`level${currentLevel}`].map,
 		state: Object.keys(rules)[0],
-		cellsToGo: levels.level1.validSpawns.length - 1,
+		cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
 	});
 	const getValidSpawns = (map) => {
 		var validSpawns = [];
@@ -25,6 +25,25 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 			}
 		}
 		return validSpawns;
+	};
+	console.log(gameState.map);
+	const resetGame = () => {
+		let tempMap = gameState.map.map((array) => {
+			return array.map((element) => {
+				return element !== 0 && element !== 1 ? 0 : element;
+			});
+		});
+		setGameState({
+			Pos: levels[`level${currentLevel}`].validSpawns[
+				Math.floor(
+					Math.random() * levels[`level${currentLevel}`].validSpawns.length
+				)
+			],
+			map: tempMap,
+			state: Object.keys(rules)[0],
+			cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
+		});
+		setIsRunning(false);
 	};
 	var tempMap = [...gameState.map];
 	tempMap[gameState.Pos[0]][gameState.Pos[1]] = -1;
@@ -113,7 +132,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 	console.log(rules);
 	useEffect(() => {
 		let interval = null;
-		if (isRunning) {
+		if (isRunning && gameState.cellsToGo > 0) {
 			interval = setInterval(() => {
 				if (
 					typeof rules[gameState.state]["rules"][
@@ -136,7 +155,14 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 			}, 15);
 		}
 		return () => clearInterval(interval);
-	}, [isRunning, rules, gameState]);
+	}, [
+		isRunning,
+		rules,
+		gameState,
+		getLocationCase,
+		getMatchingRule,
+		updateGrid,
+	]);
 	function getColor(position) {
 		const i = tempMap[position[0]][position[1]];
 		if (i === -1) return "#EB5E28";
@@ -156,13 +182,14 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 	return (
 		<div>
 			<div className="grid">
-				{tempMap.map((list, i) => {
+				{gameState.map.map((list, i) => {
 					return list.map((item, j) => {
 						return (
 							<button
 								className="buttonSquare"
 								onClick={ChangeColor}
-								id={i + "," + j}
+								id={i + "," + j + item}
+								key={i + "," + j + item}
 								style={{ backgroundColor: getColor([i, j]) }}
 							></button>
 						);
@@ -170,10 +197,10 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 				})}
 			</div>
 			<div className="screenControls">
-				<p>controls:</p>
+				<p className="controlHeader">controls:</p>
 
-				<div className="screenControlRow">
-					<p className="controlLabel">case:</p>
+				<div>
+					<p className="">case:</p>
 					<div className="ruleButtons">
 						{getLocationCase()
 							.split("")
@@ -195,7 +222,9 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 							})}
 						<div className="centerSquare"></div>
 					</div>
-					<p className="controlLabel">Move pico:</p>
+				</div>
+				<div className="gridItem">
+					<p className="">Move pico:</p>
 					<div className="ruleButtons">
 						<button
 							className="ruleButton"
@@ -222,13 +251,18 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 							W
 						</button>
 					</div>
-					<button>Reset</button>
-					<button>previousMap</button>
-					<p className="controlLabel">change map: {currentLevel}</p>
-					<button>nextMap</button>
-					<p className="controlLabel">cells to go: {gameState.cellsToGo}</p>
-					<p>{gameState.state}</p>
 				</div>
+				<div>
+					{" "}
+					<div>
+						<p className="">cells to go: {gameState.cellsToGo}</p>
+						<p>{gameState.state}</p>
+					</div>
+				</div>
+				<button onClick={resetGame}>Reset</button>
+				<button>previousMap</button>
+				<p className="">change map: {currentLevel}</p>
+				<button>nextMap</button>
 			</div>
 		</div>
 	);
