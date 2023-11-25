@@ -154,14 +154,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 			}, 15);
 		}
 		return () => clearInterval(interval);
-	}, [
-		isRunning,
-		rules,
-		gameState,
-		getLocationCase,
-		getMatchingRule,
-		updateGrid,
-	]);
+	}, [isRunning, rules, gameState]);
 	function getColor(position) {
 		const i = tempMap[position[0]][position[1]];
 		if (i === -1) return "#EB5E28";
