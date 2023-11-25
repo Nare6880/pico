@@ -9,7 +9,7 @@ const initialState = yeet.yeet2;
 // 	},
 // };
 const reducer = function appReducer(passedState = initialState, action) {
-	let state = { ...passedState };
+	let state = Object.assign({}, passedState);
 	switch (action.type) {
 		case "addState":
 			console.log(state);
@@ -63,6 +63,17 @@ const reducer = function appReducer(passedState = initialState, action) {
 				},
 			};
 			return newState;
+		case "removeRule":
+			let rules = { ...state[`state${action.payload.stateNum}`]["rules"] };
+			delete rules[action.payload.locationRule];
+			state = {
+				...state,
+				[`state${action.payload.stateNum}`]: {
+					...state[`state${action.payload.stateNum}`],
+					rules: rules,
+				},
+			};
+			return state;
 		default:
 			return state;
 	}

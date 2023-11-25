@@ -126,6 +126,20 @@ function Rule({ id, locationRule }) {
 			>
 				Confirm
 			</button>
+			{locationRule !== "default" ? (
+				<button
+					onClick={() => {
+						dispatch({
+							type: "removeRule",
+							payload: { stateNum: id, locationRule: locationRule },
+						});
+					}}
+				>
+					remove rule
+				</button>
+			) : (
+				""
+			)}
 		</div>
 	);
 }
