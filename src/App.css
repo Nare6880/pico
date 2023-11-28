@@ -59,7 +59,12 @@ body {
 .ruleButtons {
 	position: relative;
 	aspect-ratio: 1/1;
+	min-width: 90px;
 	width: 90px;
+	margin: auto;
+}
+.controlSelect {
+	margin: auto;
 }
 .ruleButton {
 	position: absolute;
@@ -89,6 +94,9 @@ body {
 .ruleButton[dataSelector="white"] {
 	background-color: white;
 }
+.controlButton {
+	margin: auto;
+}
 .centerSquare {
 	position: absolute;
 	left: 33%;
@@ -98,18 +106,27 @@ body {
 	margin: 2%;
 	background-color: orange;
 }
+.controlLabel {
+	margin: auto;
+}
+.controlElement {
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+	margin: auto;
+	padding: 8px;
+}
 .rule {
 	display: flex;
 	width: 100%;
 	flex-direction: row;
+	flex-wrap: wrap;
 	gap: 20px;
 	position: relative;
+	border-top: 3px solid black;
+	margin-top: 5px;
 }
-.controlLabel {
-	text-align: center;
-	margin: 0px;
-	line-height: 85px;
-}
+
 .state-control {
 	position: absolute;
 	right: 0;
@@ -121,10 +138,11 @@ body {
 	margin: 0px;
 }
 
-.state-header h2 {
+h2 {
 	position: relative;
 	padding: 0px;
 	margin: 0px;
+	cursor: pointer;
 }
 .AddControlRow {
 	width: 100px;

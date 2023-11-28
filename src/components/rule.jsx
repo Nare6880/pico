@@ -52,94 +52,110 @@ function Rule({ id, locationRule }) {
 	console.log("finishState:", finishState, getFinishState());
 	return (
 		<div className="rule">
-			<p className="controlLabel">case:</p>
-			<div className="ruleButtons">
-				{state.map((direction, index) => {
-					return (
-						<button
-							dataSelector={direction === directions[index] ? "blue" : "white"}
-							className="ruleButton"
-							onClick={() => {
-								let tempState = [...state];
-								if (direction === "a") {
-									tempState[index] = directions[index];
-								} else if (direction === directions[index]) {
-									tempState[index] = "x";
-								} else if (direction === "x") {
-									tempState[index] = "a";
+			<div className="controlElement">
+				<p className="controlLabel">case:</p>
+				<div className="ruleButtons">
+					{state.map((direction, index) => {
+						return (
+							<button
+								dataSelector={
+									direction === directions[index] ? "blue" : "white"
 								}
-								setState(tempState);
-							}}
-						>
-							{direction === "a" ? "?" : direction === "x" ? "x" : direction}
-						</button>
-					);
-				})}
-				<div className="centerSquare"></div>
+								className="ruleButton"
+								onClick={() => {
+									let tempState = [...state];
+									if (direction === "a") {
+										tempState[index] = directions[index];
+									} else if (direction === directions[index]) {
+										tempState[index] = "x";
+									} else if (direction === "x") {
+										tempState[index] = "a";
+									}
+									setState(tempState);
+								}}
+							>
+								{direction === "a" ? "?" : direction === "x" ? "x" : direction}
+							</button>
+						);
+					})}
+					<div className="centerSquare"></div>
+				</div>
 			</div>
-			<p className="controlLabel">action:</p>
-			<Select
-				value={actionOptions.value}
-				options={actionOptions}
-				defaultValue={actionOptions[getaction()]}
-				onChange={(value, actionType) => {
-					if (value.value !== "display") {
-						action = value.value;
-					}
-				}}
-			/>
-			<Select
-				value={statesArr.value}
-				options={statesArr}
-				defaultValue={statesArr[getFinishState()]}
-				onChange={(value, actionType) => {
-					if (value.value !== "display") {
-						finishState = value.value;
-					}
-				}}
-			/>
-			<button
-				onClick={() => {
-					console.log({
-						...rules,
-						[state.join("")]: {
-							action: action,
-							finishState: finishState,
-						},
-					});
-					if (action !== "display") {
-						dispatch({
-							type: "updateState",
-							payload: {
-								stateNum: id,
-								rules: {
-									...rules,
-									[state.join("")]: {
-										action: action,
-										finishState: finishState,
-									},
-								},
+			<div className="controlElement">
+				<p className="controlLabel">action:</p>
+				<div className="controlSelect">
+					<Select
+						value={actionOptions.value}
+						options={actionOptions}
+						defaultValue={actionOptions[getaction()]}
+						onChange={(value, actionType) => {
+							if (value.value !== "display") {
+								action = value.value;
+							}
+						}}
+					/>
+				</div>
+			</div>
+
+			<div className="controlElement">
+				<p className="controlLabel">finish state:</p>
+				<Select
+					value={statesArr.value}
+					options={statesArr}
+					defaultValue={statesArr[getFinishState()]}
+					onChange={(value, actionType) => {
+						if (value.value !== "display") {
+							finishState = value.value;
+						}
+					}}
+				/>
+			</div>
+			<div className="controlElement">
+				<button
+					className="controlButton"
+					onClick={() => {
+						console.log({
+							...rules,
+							[state.join("")]: {
+								action: action,
+								finishState: finishState,
 							},
 						});
-					}
-				}}
-			>
-				Confirm
-			</button>
-			{locationRule !== "default" ? (
-				<button
-					onClick={() => {
-						dispatch({
-							type: "removeRule",
-							payload: { stateNum: id, locationRule: locationRule },
-						});
+						if (action !== "display") {
+							dispatch({
+								type: "updateState",
+								payload: {
+									stateNum: id,
+									rules: {
+										...rules,
+										[state.join("")]: {
+											action: action,
+											finishState: finishState,
+										},
+									},
+								},
+							});
+						}
 					}}
 				>
-					remove rule
+					Confirm
 				</button>
-			) : (
-				""
-			)}
+				{locationRule !== "default" ? (
+					<button
+						className="controlButton"
+						onClick={() => {
+							dispatch({
+								type: "removeRule",
+								payload: { stateNum: id, locationRule: locationRule },
+							});
+						}}
+					>
+						remove rule
+					</button>
+				) : (
+					""
+				)}
+			</div>
 		</div>
 	);
 }
