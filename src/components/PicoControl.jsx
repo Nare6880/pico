@@ -5,6 +5,13 @@ import State from "./State";
 import { useSelector, useDispatch } from "react-redux";
 export default function PicoControl({ runGame }) {
 	const states = useSelector((state) => state.reducer);
+	const stateFilter = Object.keys(states).filter((element) => {
+		if (element === "level") {
+			return false;
+		} else {
+			return true;
+		}
+	});
 	console.log(states);
 	const dispatch = useDispatch();
 	const handleAddState = () => {
@@ -14,17 +21,12 @@ export default function PicoControl({ runGame }) {
 	};
 	return (
 		<div className="ControlContainer">
-			{Object.keys(states).map((state, index) => {
-				return (
-					<State key={index} states={states} id={states[state]["stateNum"]} />
-				);
+			{stateFilter.map((state, index) => {
+				return <State key={index} id={states[state]["stateNum"]} />;
 			})}
 			<div className="ControlRow NoBackground">
 				<button className="AddControlRow" onClick={handleAddState}>
 					Add Row
-				</button>
-				<button className="AddControlRow" onClick={runGame}>
-					Run
 				</button>
 			</div>
 		</div>

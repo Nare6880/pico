@@ -57,6 +57,7 @@
 		}
 	},
 	"yeet2": {
+		"level": 1,
 		"state1": {
 			"stateNum": 1,
 			"rules": {

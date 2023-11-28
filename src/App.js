@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./logic/store";
 function App() {
 	const [isRunning, setIsRunning] = useState(false);
 	const runGame = () => {
@@ -17,6 +17,7 @@ function App() {
 				<PicoScreen
 					isRunning={isRunning}
 					setIsRunning={setIsRunning}
+					runGame={runGame}
 				></PicoScreen>
 				<PicoControl runGame={runGame}></PicoControl>
 			</Provider>

@@ -25,7 +25,10 @@ function Rule({ id, locationRule }) {
 	];
 	var statesArr = Array.from(
 		Object.keys(states).map((Element) => {
-			return { value: `${Element}`, label: `${Element}` };
+			return {
+				value: `${Element}`,
+				label: `${Element.slice(0, 5) + " " + Element.slice(5)}`,
+			};
 		})
 	);
 

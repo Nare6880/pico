@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
-export default function PicoScreen({ isRunning, setIsRunning }) {
+export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
@@ -15,6 +15,7 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 		state: Object.keys(rules)[0],
 		cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
 	});
+	const dispatch = useDispatch();
 	const getValidSpawns = (map) => {
 		var validSpawns = [];
 		for (let i = 0; i < map.length; i++) {
@@ -244,7 +245,9 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 					</div>
 				</div>
 				<div>
-					{" "}
+					<button className="AddControlRow" onClick={runGame}>
+						Run
+					</button>
 					<div>
 						<p className="">cells to go: {gameState.cellsToGo}</p>
 						<p>{gameState.state}</p>
@@ -264,6 +267,15 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 									? Object.keys(levels).length - 1
 									: currentLevel - 1
 							);
+							dispatch({
+								type: "updateLevel",
+								payload: {
+									level:
+										currentLevel - 1 < 0
+											? Object.keys(levels).length - 1
+											: currentLevel - 1,
+								},
+							});
 						}}
 					>
 						previousMap
@@ -273,6 +285,10 @@ export default function PicoScreen({ isRunning, setIsRunning }) {
 						onClick={() => {
 							setCurrentLevel((currentLevel + 1) % 2);
 							resetGame((currentLevel + 1) % 2);
+							dispatch({
+								type: "updateLevel",
+								payload: { level: (currentLevel + 1) % 2 },
+							});
 						}}
 					>
 						nextMap
