@@ -12,7 +12,7 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 			)
 		],
 		map: levels[`level${currentLevel}`].map,
-		state: Object.keys(rules)[0],
+		state: Object.keys(rules)[1],
 		cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
 	});
 	const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 				)
 			],
 			map: tempMap,
-			state: Object.keys(rules)[0],
+			state: Object.keys(rules)[1],
 			cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
 		});
 		setIsRunning(false);
@@ -169,7 +169,8 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 		if (event.target.style.backgroundColor != "blue") {
 			event.target.style.backgroundColor = "blue";
 			tempMap[cordinates[0]][cordinates[1]] = 1;
-			setGameState({ ...gameState, map: tempMap });
+			console.log(tempMap);
+			// setGameState({ ...gameState, map: tempMap });
 		} else event.target.style.backgroundColor = "#FFFCF2";
 	};
 	return (
@@ -283,11 +284,13 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 					<p className="">change map: {currentLevel}</p>
 					<button
 						onClick={() => {
-							setCurrentLevel((currentLevel + 1) % 2);
-							resetGame((currentLevel + 1) % 2);
+							setCurrentLevel((currentLevel + 1) % Object.keys(levels).length);
+							resetGame((currentLevel + 1) % Object.keys(levels).length);
 							dispatch({
 								type: "updateLevel",
-								payload: { level: (currentLevel + 1) % 2 },
+								payload: {
+									level: (currentLevel + 1) % Object.keys(levels).length,
+								},
 							});
 						}}
 					>
