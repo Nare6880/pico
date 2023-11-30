@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import store from "./logic/store";
 function App() {
 	const [isRunning, setIsRunning] = useState(false);
+	const [levelCompleted, setLevelCompleted] = useState(false);
+	const [isOpen, setIsOpen] = useState(true);
 	const runGame = () => {
 		console.log("running");
 		setIsRunning(true);
@@ -18,9 +20,15 @@ function App() {
 					isRunning={isRunning}
 					setIsRunning={setIsRunning}
 					runGame={runGame}
+					setLevelCompleted={setLevelCompleted}
+					setIsOpen={setIsOpen}
 				></PicoScreen>
 				<PicoControl runGame={runGame}></PicoControl>
 			</Provider>
+			<dialog open={levelCompleted && isOpen}>
+				competed level!
+				<button onClick={() => setIsOpen(false)}>close</button>
+			</dialog>
 		</div>
 	);
 }

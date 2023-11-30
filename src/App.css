@@ -125,8 +125,11 @@ body {
 	position: relative;
 	border-top: 3px solid black;
 	margin-top: 5px;
+	overflow: visible;
 }
-
+.Colapsible {
+	overflow: visible;
+}
 .state-control {
 	position: absolute;
 	right: 0;

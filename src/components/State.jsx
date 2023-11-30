@@ -31,6 +31,7 @@ function State({ id }) {
 			<Collapsible
 				triggerStyle={{ margin: 0, padding: 0 }}
 				trigger={<h2>{`State ${id}`}</h2>}
+				overflowWhenOpen="visible"
 			>
 				{getRulesArr().map((locationRule) => {
 					if (rules[locationRule]["action"] !== "noDisplay") {

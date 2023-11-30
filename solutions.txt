@@ -1,0 +1,73 @@
+/*
+{
+  "level": 3,
+  "state1": {
+    "stateNum": 1,
+    "rules": {
+      "default": {
+        "action": "noDisplay",
+        "finishState": "state1"
+      },
+      "aaax": {
+        "action": "W",
+        "finishState": "state4"
+      },
+      "aaaW": {
+        "action": "W",
+        "finishState": "state2"
+      }
+    }
+  },
+  "state2": {
+    "stateNum": 2,
+    "rules": {
+      "default": {
+        "action": "noDisplay",
+        "finishState": "state2"
+      },
+      "axaa": {
+        "action": "S",
+        "finishState": "state1"
+      },
+      "aSaa": {
+        "action": "S",
+        "finishState": "state3"
+      }
+    }
+  },
+  "state3": {
+    "stateNum": 3,
+    "rules": {
+      "default": {
+        "action": "noDisplay",
+        "finishState": "state3"
+      },
+      "aaxa": {
+        "action": "E",
+        "finishState": "state2"
+      },
+      "aaEa": {
+        "action": "E",
+        "finishState": "state4"
+      }
+    }
+  },
+  "state4": {
+    "stateNum": 4,
+    "rules": {
+      "default": {
+        "action": "noDisplay",
+        "finishState": "state4"
+      },
+      "xaaa": {
+        "action": "N",
+        "finishState": "state3"
+      },
+      "Naaa": {
+        "action": "N",
+        "finishState": "state1"
+      }
+    }
+  }
+}
+*/

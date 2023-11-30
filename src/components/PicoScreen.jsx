@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
-export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
+export default function PicoScreen({
+	isRunning,
+	setIsRunning,
+	runGame,
+	setLevelCompleted,
+	setIsOpen,
+}) {
 	const [currentLevel, setCurrentLevel] = useState(1);
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
@@ -129,6 +135,32 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 			}
 		}
 	};
+	const step = () => {
+		if (
+			typeof rules[gameState.state]["rules"][
+				getMatchingRule(getLocationCase())
+			] === "undefined"
+		) {
+			return;
+		} else {
+			let obj = updateGrid(
+				rules[gameState.state]["rules"][getMatchingRule(getLocationCase())][
+					"action"
+				],
+				rules[gameState.state]["rules"][getMatchingRule(getLocationCase())][
+					"finishState"
+				]
+			);
+			if (obj.cellsToGo <= 0) {
+				setGameState(obj, () => {
+					setLevelCompleted(true);
+					setIsOpen(true);
+				});
+			} else {
+				setGameState(obj);
+			}
+		}
+	};
 	console.log(rules);
 	useEffect(() => {
 		let interval = null;
@@ -151,11 +183,18 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 						"finishState"
 					]
 				);
-				setGameState(obj);
-			}, 15);
+				if (obj.cellsToGo <= 0) {
+					setGameState(obj, () => {
+						setLevelCompleted(true);
+						setIsOpen(true);
+					});
+				} else {
+					setGameState(obj);
+				}
+			}, 20);
 		}
 		return () => clearInterval(interval);
-	}, [isRunning, rules, gameState]);
+	}, [isRunning, rules, gameState, setIsOpen, setLevelCompleted]);
 	function getColor(position) {
 		const i = tempMap[position[0]][position[1]];
 		if (i === -1) return "#EB5E28";
@@ -166,7 +205,7 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 	//Toggles wall Status
 	const ChangeColor = (event) => {
 		let cordinates = event.target.id.split(",");
-		if (event.target.style.backgroundColor != "blue") {
+		if (event.target.style.backgroundColor !== "blue") {
 			event.target.style.backgroundColor = "blue";
 			tempMap[cordinates[0]][cordinates[1]] = 1;
 			console.log(tempMap);
@@ -249,6 +288,7 @@ export default function PicoScreen({ isRunning, setIsRunning, runGame }) {
 					<button className="AddControlRow" onClick={runGame}>
 						Run
 					</button>
+					<button onClick={step}>step</button>
 					<div>
 						<p className="">cells to go: {gameState.cellsToGo}</p>
 						<p>{gameState.state}</p>
