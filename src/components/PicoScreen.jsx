@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
+import {
+	getLastLevel,
+	getLastLevelCompleted,
+	saveCompleted,
+} from "../logic/localStorage.js";
 export default function PicoScreen({
 	isRunning,
 	setIsRunning,
@@ -9,7 +14,7 @@ export default function PicoScreen({
 	setLevelCompleted,
 	setIsOpen,
 }) {
-	const [currentLevel, setCurrentLevel] = useState(1);
+	const [currentLevel, setCurrentLevel] = useState(getLastLevelCompleted());
 	const rules = useSelector((state) => state.reducer);
 	const [gameState, setGameState] = useState({
 		Pos: levels[`level${currentLevel}`].validSpawns[
@@ -184,6 +189,7 @@ export default function PicoScreen({
 					]
 				);
 				if (obj.cellsToGo <= 0) {
+					saveCompleted(currentLevel);
 					setGameState(obj, () => {
 						setLevelCompleted(true);
 						setIsOpen(true);
