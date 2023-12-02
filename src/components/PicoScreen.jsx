@@ -2,17 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../App.css";
 import levels from "../assets/yeet.json";
-import {
-	getLastLevel,
-	getLastLevelCompleted,
-	saveCompleted,
-} from "../logic/localStorage.js";
+import { getLastLevelCompleted, saveCompleted } from "../logic/localStorage.js";
 export default function PicoScreen({
 	isRunning,
 	setIsRunning,
 	runGame,
-	setLevelCompleted,
-	setIsOpen,
+	openModal,
 }) {
 	const [currentLevel, setCurrentLevel] = useState(getLastLevelCompleted());
 	const rules = useSelector((state) => state.reducer);
@@ -27,17 +22,6 @@ export default function PicoScreen({
 		cellsToGo: levels[`level${currentLevel}`].validSpawns.length - 1,
 	});
 	const dispatch = useDispatch();
-	const getValidSpawns = (map) => {
-		var validSpawns = [];
-		for (let i = 0; i < map.length; i++) {
-			for (let j = 0; j < map[i].length; j++) {
-				if (map[i][j] === 0) {
-					validSpawns.push([i, j]);
-				}
-			}
-		}
-		return validSpawns;
-	};
 	const resetGame = (currentLevel) => {
 		let tempMap = levels[`level${currentLevel}`].map.map((array) => {
 			return array.map((element) => {
@@ -158,8 +142,8 @@ export default function PicoScreen({
 			);
 			if (obj.cellsToGo <= 0) {
 				setGameState(obj, () => {
-					setLevelCompleted(true);
-					setIsOpen(true);
+					openModal();
+					saveCompleted(currentLevel);
 				});
 			} else {
 				setGameState(obj);
@@ -167,6 +151,12 @@ export default function PicoScreen({
 		}
 	};
 	console.log(rules);
+	useEffect(() => {
+		if (gameState.cellsToGo <= 0) {
+			openModal();
+			saveCompleted(currentLevel);
+		}
+	}, [gameState, openModal, currentLevel]);
 	useEffect(() => {
 		let interval = null;
 		if (isRunning && gameState.cellsToGo > 0) {
@@ -190,17 +180,14 @@ export default function PicoScreen({
 				);
 				if (obj.cellsToGo <= 0) {
 					saveCompleted(currentLevel);
-					setGameState(obj, () => {
-						setLevelCompleted(true);
-						setIsOpen(true);
-					});
+					setGameState(obj);
 				} else {
 					setGameState(obj);
 				}
 			}, 20);
 		}
 		return () => clearInterval(interval);
-	}, [isRunning, rules, gameState, setIsOpen, setLevelCompleted]);
+	}, [isRunning, rules, gameState, saveCompleted, openModal, currentLevel]);
 	function getColor(position) {
 		const i = tempMap[position[0]][position[1]];
 		if (i === -1) return "#EB5E28";

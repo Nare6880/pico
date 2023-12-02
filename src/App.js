@@ -13,6 +13,10 @@ function App() {
 		console.log("running");
 		setIsRunning(true);
 	};
+	const openModal = () => {
+		setIsOpen(true);
+		setLevelCompleted(true);
+	};
 	return (
 		<div className="App">
 			<Provider store={store}>
@@ -20,8 +24,7 @@ function App() {
 					isRunning={isRunning}
 					setIsRunning={setIsRunning}
 					runGame={runGame}
-					setLevelCompleted={setLevelCompleted}
-					setIsOpen={setIsOpen}
+					openModal={openModal}
 				></PicoScreen>
 				<PicoControl runGame={runGame}></PicoControl>
 			</Provider>
