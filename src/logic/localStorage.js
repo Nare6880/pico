@@ -22,9 +22,11 @@ export const saveCompleted = (levelNum) => {
 	console.log("saving");
 	try {
 		const serializedState = localStorage.getItem("PicoLevelsCompleted");
+		console.log(serializedState);
 		if (serializedState !== null) {
-			let state = serializedState;
+			let state = JSON.parse(serializedState);
 			state[`${levelNum}`] = true;
+			console.log(state);
 			localStorage.setItem("PicoLevelsCompleted", JSON.stringify(state));
 		} else {
 			let defualtState = {

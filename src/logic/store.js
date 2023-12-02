@@ -1,14 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import yeet from "../assets/yeet1.json";
-import { loadState, saveState } from "./localStorage";
-const initialState = loadState(1) ? loadState(1) : yeet.yeet2; //{
-// 		level: 0,
-// 		state1: {
-// 			stateNum: 1,
-// 			rules: { default: { action: "noDisplay", finishState: "state1" } },
-// 		},
-//   };
-
+import { loadState, saveState, getLastLevelCompleted } from "./localStorage";
+const initialState = loadState(getLastLevelCompleted())
+	? loadState(getLastLevelCompleted())
+	: {
+			level: getLastLevelCompleted(),
+			state1: {
+				stateNum: 1,
+				rules: { default: { action: "noDisplay", finishState: "state1" } },
+			},
+	  }; //{
 const reducer = function appReducer(passedState = initialState, action) {
 	let state = Object.assign({}, passedState);
 	switch (action.type) {
