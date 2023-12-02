@@ -150,11 +150,12 @@ export default function PicoScreen({
 			}
 		}
 	};
-	console.log(rules);
+
 	useEffect(() => {
-		if (gameState.cellsToGo <= 0) {
+		if (gameState.cellsToGo <= 0 && isRunning) {
 			openModal();
 			saveCompleted(currentLevel);
+			setIsRunning(false);
 		}
 	}, [gameState, openModal, currentLevel]);
 	useEffect(() => {
@@ -314,7 +315,7 @@ export default function PicoScreen({
 					>
 						previousMap
 					</button>
-					<p className="">change map: {currentLevel}</p>
+					<p className="">Current level: {currentLevel + 1}</p>
 					<button
 						onClick={() => {
 							setCurrentLevel((currentLevel + 1) % Object.keys(levels).length);

@@ -36,7 +36,7 @@ const reducer = function appReducer(passedState = initialState, action) {
 			break;
 		case "removeState":
 			delete state[`state${action.payload}`];
-			if (Object.keys(state).length === 0) {
+			if (Object.keys(state).length === 1) {
 				state = {
 					state1: {
 						stateNum: 1,
