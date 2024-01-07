@@ -1,6 +1,6 @@
 import PicoScreen from "./components/PicoScreen";
 import PicoControl from "./components/PicoControl";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
@@ -17,6 +17,7 @@ function App() {
 		setIsOpen(true);
 		setLevelCompleted(true);
 	};
+	useEffect(() => {});
 	return (
 		<div className="App">
 			<Provider store={store}>

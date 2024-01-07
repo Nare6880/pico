@@ -7,11 +7,16 @@ function Rule({ id, locationRule }) {
 	const [state, setState] = useState(stateString.split(""));
 	const directions = ["N", "S", "E", "W"];
 
-	var action = useSelector(
-		(state) => state.reducer[`state${id}`]["rules"][locationRule]["action"]
+	const [action, setAction] = useState(
+		useSelector(
+			(state) => state.reducer[`state${id}`]["rules"][locationRule]["action"]
+		)
 	);
-	var finishState = useSelector(
-		(state) => state.reducer[`state${id}`]["rules"][locationRule]["finishState"]
+	const [finishState, setFinishState] = useState(
+		useSelector(
+			(state) =>
+				state.reducer[`state${id}`]["rules"][locationRule]["finishState"]
+		)
 	);
 	const states = useSelector((state) => state.reducer);
 	const rules = useSelector((state) => state.reducer[`state${id}`]["rules"]);
@@ -93,7 +98,7 @@ function Rule({ id, locationRule }) {
 						defaultValue={actionOptions[getaction()]}
 						onChange={(value, actionType) => {
 							if (value.value !== "display") {
-								action = value.value;
+								setAction(value.value);
 							}
 						}}
 					/>
@@ -108,7 +113,7 @@ function Rule({ id, locationRule }) {
 					defaultValue={statesArr[getFinishState()]}
 					onChange={(value, actionType) => {
 						if (value.value !== "display") {
-							finishState = value.value;
+							setFinishState(value.value);
 						}
 					}}
 				/>
@@ -117,13 +122,7 @@ function Rule({ id, locationRule }) {
 				<button
 					className="controlButton"
 					onClick={() => {
-						console.log({
-							...rules,
-							[state.join("")]: {
-								action: action,
-								finishState: finishState,
-							},
-						});
+						console.log("updateState", state.join(""), action, finishState);
 						if (action !== "display") {
 							dispatch({
 								type: "updateState",

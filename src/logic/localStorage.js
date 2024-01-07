@@ -63,3 +63,17 @@ export const getLastLevelCompleted = () => {
 		return 0;
 	}
 };
+export const getFirstLaunch = () => {
+	try {
+		const serializedState = JSON.parse(
+			localStorage.getItem("FirstLaunchExperiencePico")
+		);
+		if (serializedState === null) {
+			return true;
+		}
+		return false;
+	} catch (err) {
+		console.log("No state found");
+		return true;
+	}
+};
