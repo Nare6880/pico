@@ -286,7 +286,6 @@ h2 {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	position: relative;
-	padding: 20px;
 	text-align: center;
 }
 .gridItem {

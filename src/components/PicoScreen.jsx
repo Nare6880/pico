@@ -224,7 +224,6 @@ export default function PicoScreen({
 				})}
 			</div>
 			<div className="screenControls">
-				<p className="controlHeader">controls:</p>
 				<div>
 					<p className="">case:</p>
 					<div className="ruleButtons">

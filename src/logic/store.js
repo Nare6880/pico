@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import yeet from "../assets/yeet1.json";
+
 import { loadState, saveState, getLastLevelCompleted } from "./localStorage";
 const initialState = loadState(getLastLevelCompleted())
 	? loadState(getLastLevelCompleted())
@@ -30,7 +30,7 @@ const reducer = function appReducer(passedState = initialState, action) {
 			state[`state${stateNum}`] = {
 				stateNum: stateNum,
 				rules: {
-					default: { action: "noDisplay", finishState: `state${stateNum}` },
+					default: { action: "Display", finishState: `state${stateNum}` },
 				},
 			};
 			break;
@@ -38,6 +38,7 @@ const reducer = function appReducer(passedState = initialState, action) {
 			delete state[`state${action.payload}`];
 			if (Object.keys(state).length === 1) {
 				state = {
+					level: state.level,
 					state1: {
 						stateNum: 1,
 						rules: { default: { action: "noDisplay", finishState: `state1` } },
@@ -101,6 +102,7 @@ const reducer = function appReducer(passedState = initialState, action) {
 			break;
 	}
 	saveState(state, state.level);
+	console.log(state);
 	return state;
 };
 export default configureStore({

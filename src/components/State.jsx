@@ -32,6 +32,7 @@ function State({ id }) {
 				triggerStyle={{ margin: 0, padding: 0 }}
 				trigger={<h2>{`State ${id}`}</h2>}
 				overflowWhenOpen="visible"
+				open={true}
 			>
 				{getRulesArr().map((locationRule) => {
 					if (rules[locationRule]["action"] !== "noDisplay") {
