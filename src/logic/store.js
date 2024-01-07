@@ -55,6 +55,11 @@ const reducer = function appReducer(passedState = initialState, action) {
 				action: "noDisplay",
 				finishState: `state${action.payload.stateNum}`,
 			};
+			if (action.payload.delete) {
+				delete state[`state${action.payload.stateNum}`]["rules"][
+					action.payload.delete
+				];
+			}
 
 			break;
 		case "addRule":

@@ -124,19 +124,46 @@ function Rule({ id, locationRule }) {
 					onClick={() => {
 						console.log("updateState", state.join(""), action, finishState);
 						if (action !== "display") {
-							dispatch({
-								type: "updateState",
-								payload: {
-									stateNum: id,
-									rules: {
-										...rules,
-										[state.join("")]: {
-											action: action,
-											finishState: finishState,
+							console.log(
+								"updateState",
+								locationRule,
+								state.join(""),
+								action,
+								finishState
+							);
+							if (
+								locationRule === "default" ||
+								locationRule === state.join("")
+							) {
+								dispatch({
+									type: "updateState",
+									payload: {
+										stateNum: id,
+										rules: {
+											...rules,
+											[state.join("")]: {
+												action: action,
+												finishState: finishState,
+											},
 										},
 									},
-								},
-							});
+								});
+							} else {
+								dispatch({
+									type: "updateState",
+									payload: {
+										stateNum: id,
+										rules: {
+											...rules,
+											[state.join("")]: {
+												action: action,
+												finishState: finishState,
+											},
+										},
+										delete: locationRule,
+									},
+								});
+							}
 						}
 					}}
 				>
