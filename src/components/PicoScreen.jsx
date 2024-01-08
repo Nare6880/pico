@@ -214,7 +214,6 @@ export default function PicoScreen({
 						return (
 							<button
 								className="buttonSquare"
-								onClick={ChangeColor}
 								id={i + "," + j + item}
 								key={i + "," + j + item}
 								style={{ backgroundColor: getColor([i, j]) }}
