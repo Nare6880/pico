@@ -17,7 +17,9 @@ function App() {
 		setIsOpen(true);
 		setLevelCompleted(true);
 	};
-	useEffect(() => {});
+	useEffect(() => {
+		document.title = "PicoBot";
+	});
 	return (
 		<div className="App">
 			<Provider store={store}>
