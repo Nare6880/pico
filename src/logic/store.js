@@ -7,7 +7,7 @@ const initialState = loadState(getLastLevelCompleted())
 			level: getLastLevelCompleted(),
 			state1: {
 				stateNum: 1,
-				rules: { default: { action: "noDisplay", finishState: "state1" } },
+				rules: { default: { action: "Display", finishState: "state1" } },
 			},
 	  }; //{
 const reducer = function appReducer(passedState = initialState, action) {
@@ -41,7 +41,7 @@ const reducer = function appReducer(passedState = initialState, action) {
 					level: state.level,
 					state1: {
 						stateNum: 1,
-						rules: { default: { action: "noDisplay", finishState: `state1` } },
+						rules: { default: { action: "Display", finishState: `state1` } },
 					},
 				};
 			}

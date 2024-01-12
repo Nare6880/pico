@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faForwardStep,
+	faPause,
+	faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import "../App.css";
 import levels from "../assets/yeet.json";
 import { getLastLevelCompleted, saveCompleted } from "../logic/localStorage.js";
@@ -7,6 +13,7 @@ export default function PicoScreen({
 	isRunning,
 	setIsRunning,
 	runGame,
+	pauseGame,
 	openModal,
 }) {
 	const [currentLevel, setCurrentLevel] = useState(getLastLevelCompleted());
@@ -207,7 +214,7 @@ export default function PicoScreen({
 		} else event.target.style.backgroundColor = "#FFFCF2";
 	};
 	return (
-		<div>
+		<div className="grid-vert">
 			<div className="grid">
 				{gameState.map.map((list, i) => {
 					return list.map((item, j) => {
@@ -277,10 +284,31 @@ export default function PicoScreen({
 					</div>
 				</div>
 				<div>
-					<button className="AddControlRow" onClick={runGame}>
-						Run
-					</button>
-					<button onClick={step}>step</button>
+					{!isRunning ? (
+						<FontAwesomeIcon
+							icon={faPlay}
+							color={"green"}
+							onClick={runGame}
+							size="xl"
+							fixedWidth
+						/>
+					) : (
+						<FontAwesomeIcon
+							icon={faPause}
+							color={"orange"}
+							onClick={pauseGame}
+							size="xl"
+							fixedWidth
+						/>
+					)}
+
+					<FontAwesomeIcon
+						icon={faForwardStep}
+						color={"gray"}
+						onClick={step}
+						size="xl"
+						fixedWidth
+					/>
 					<div>
 						<p className="">cells to go: {gameState.cellsToGo}</p>
 						<p>{gameState.state}</p>

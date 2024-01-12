@@ -14,11 +14,11 @@ body {
 	display: grid;
 	grid-template-columns: repeat(25, 1fr);
 	gap: 0.002%;
-
 	padding: 2px;
-	width: 1fr;
-	height: 1fr;
 	border-radius: 3px;
+	width: 80%;
+	min-width: 408px;
+	margin: 0 auto;
 	background-color: #737373;
 }
 .col {
@@ -46,6 +46,7 @@ body {
 	border: 3px solid #777169;
 	background-color: #737373;
 	overflow-y: scroll;
+	min-width: 580px;
 }
 .state {
 	border: 3px solid;
@@ -178,8 +179,8 @@ h2 {
 .App {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 50px;
-	margin: 100px;
+	margin-left: min(10%, 50px);
+	margin-right: min(10%, 50px);
 }
 .chat-container {
 	width: 400px;
@@ -281,7 +282,9 @@ h2 {
 	display: flex;
 }
 .screenControls {
-	width: 100%;
+	width: 80%;
+	min-width: 408px;
+	margin: 0 auto;
 	background-color: white;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -301,4 +304,8 @@ h2 {
 	position: absolute;
 	left: 0;
 	top: 0;
+}
+.grid-vert {
+	height: 100%;
+	width: 100%;
 }

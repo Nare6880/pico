@@ -13,6 +13,9 @@ function App() {
 		console.log("running");
 		setIsRunning(true);
 	};
+	const pauseGame = () => {
+		setIsRunning(false);
+	};
 	const openModal = () => {
 		setIsOpen(true);
 		setLevelCompleted(true);
@@ -28,6 +31,7 @@ function App() {
 					setIsRunning={setIsRunning}
 					runGame={runGame}
 					openModal={openModal}
+					pauseGame={pauseGame}
 				></PicoScreen>
 				<PicoControl runGame={runGame}></PicoControl>
 			</Provider>
