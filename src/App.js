@@ -1,6 +1,7 @@
 import PicoScreen from "./components/PicoScreen";
 import PicoControl from "./components/PicoControl";
 import React, { useEffect } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useState } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
@@ -39,6 +40,7 @@ function App() {
 				competed level!
 				<button onClick={() => setIsOpen(false)}>close</button>
 			</dialog>
+			<SpeedInsights />
 		</div>
 	);
 }
