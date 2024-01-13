@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+	faBackwardStep,
 	faForwardStep,
 	faPause,
 	faPlay,
@@ -203,16 +204,6 @@ export default function PicoScreen({
 		else if (i === 1) return "blue";
 		else if (i === 2) return "gray";
 	}
-	//Toggles wall Status
-	const ChangeColor = (event) => {
-		let cordinates = event.target.id.split(",");
-		if (event.target.style.backgroundColor !== "blue") {
-			event.target.style.backgroundColor = "blue";
-			tempMap[cordinates[0]][cordinates[1]] = 1;
-			console.log(tempMap);
-			// setGameState({ ...gameState, map: tempMap });
-		} else event.target.style.backgroundColor = "#FFFCF2";
-	};
 	return (
 		<div className="grid-vert">
 			<div className="grid">
@@ -284,6 +275,13 @@ export default function PicoScreen({
 					</div>
 				</div>
 				<div>
+					<FontAwesomeIcon
+						icon={faBackwardStep}
+						color={"gray"}
+						onClick={() => resetGame(currentLevel)}
+						size="xl"
+						fixedWidth
+					/>
 					{!isRunning ? (
 						<FontAwesomeIcon
 							icon={faPlay}
@@ -311,9 +309,11 @@ export default function PicoScreen({
 					/>
 					<div>
 						<p className="">cells to go: {gameState.cellsToGo}</p>
-						<p>{gameState.state}</p>
+						<p>
+							State:{" "}
+							{Array.from(gameState.state).filter((char) => !isNaN(char))}
+						</p>
 					</div>
-					<button onClick={() => resetGame(currentLevel)}>Reset</button>
 				</div>
 				<div>
 					<button
