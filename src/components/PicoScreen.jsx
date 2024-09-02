@@ -210,12 +210,12 @@ export default function PicoScreen({
 				{gameState.map.map((list, i) => {
 					return list.map((item, j) => {
 						return (
-							<button
+							<div
 								className="buttonSquare"
 								id={i + "," + j + item}
 								key={i + "," + j + item}
 								style={{ backgroundColor: getColor([i, j]) }}
-							></button>
+							></div>
 						);
 					});
 				})}

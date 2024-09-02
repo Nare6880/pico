@@ -93,6 +93,7 @@ function Rule({ id, locationRule }) {
 				<p className="controlLabel">action:</p>
 				<div className="controlSelect">
 					<Select
+						aria-label="Action Selector"
 						value={actionOptions.value}
 						options={actionOptions}
 						defaultValue={actionOptions[getaction()]}
@@ -108,6 +109,7 @@ function Rule({ id, locationRule }) {
 			<div className="controlElement">
 				<p className="controlLabel">finish state:</p>
 				<Select
+					aria-label="Finish State Selector"
 					value={statesArr.value}
 					options={statesArr}
 					defaultValue={statesArr[getFinishState()]}

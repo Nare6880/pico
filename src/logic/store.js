@@ -9,7 +9,7 @@ const initialState = loadState(getLastLevelCompleted())
 				stateNum: 1,
 				rules: { default: { action: "Display", finishState: "state1" } },
 			},
-	  }; //{
+	  };
 const reducer = function appReducer(passedState = initialState, action) {
 	let state = Object.assign({}, passedState);
 	switch (action.type) {
