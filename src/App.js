@@ -2,7 +2,7 @@ import PicoScreen from "./components/PicoScreen";
 import PicoControl from "./components/PicoControl";
 import React, { useEffect } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { inject } from "@vercel/analytics";
+import { Analytics } from "@vercel/analytics/react";
 import { useState } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
@@ -25,7 +25,6 @@ function App() {
 	useEffect(() => {
 		document.title = "PicoBot";
 	});
-	inject();
 	return (
 		<div className="App">
 			<Provider store={store}>
@@ -43,6 +42,7 @@ function App() {
 				<button onClick={() => setIsOpen(false)}>close</button>
 			</dialog>
 			<SpeedInsights />
+			<Analytics />
 		</div>
 	);
 }
